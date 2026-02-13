@@ -73,3 +73,24 @@ test("procesar respeta la estructura y tipos de datos del JSON", () => {
   assert.equal(typeof res.body.longitud, "number", "'longitud' debe ser número");
 });
 
+test("procesar falla controladamente si nombre es 'error'", () => {
+  const req = { query: { nombre: "error" } };
+  const res = {
+    statusCode: null,
+    body: null,
+    status(code) {
+      this.statusCode = code;
+      return this;
+    },
+    json(payload) {
+      this.body = payload;
+      return this;
+    }
+  };
+
+  handler(req, res);
+
+  // Esperamos un error 500, no un 200
+  assert.equal(res.statusCode, 500, "El status debería ser 500 al forzar error");
+  assert.ok(res.body.error, "El cuerpo de respuesta debe contener un mensaje de error");
+});
