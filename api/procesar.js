@@ -13,3 +13,5 @@ export default function handler(req, res) {
     longitud: nombre.length
   });
 }
+
+//Hola, esto es un comentario de prueba para el taller préctico con Sonar
